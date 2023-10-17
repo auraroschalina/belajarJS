@@ -77,3 +77,42 @@
 // console.log(isi)
 // p.innerHTML = isi
 // })
+
+
+let todolistinput = document.querySelector('#todolistinput');
+let list = document.querySelector('#list');
+
+function addItem() {
+    let value = todolistinput.value.trim();
+    if (value !== "") {
+        let daftarItem = document.createElement("li");
+        daftarItem.innerHTML = `<span>${value}</span><i></i>`;
+
+        daftarItem.addEventListener("click", function(){
+            this.classList.toggle('done');
+            updateTextDecoration(this);
+        });
+
+        daftarItem.querySelector("i").addEventListener("click", function(){
+            daftarItem.remove();
+        });
+
+        list.appendChild(daftarItem);
+        todolistinput.value = "";
+    }
+}
+
+function updateTextDecoration(item) {
+    let textElement = item.querySelector('span');
+    if (item.classList.contains('done')) {
+        textElement.style.textDecoration = 'line-through';
+    } else {
+        textElement.style.textDecoration = 'none';
+    }
+}
+
+todolistinput.addEventListener("keyup", function(event){
+    if(event.key == "Enter") {
+        addItem();
+    }
+});
