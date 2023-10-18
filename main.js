@@ -80,39 +80,39 @@
 
 
 let todolistinput = document.querySelector('#todolistinput');
-let list = document.querySelector('#list');
+        let list = document.querySelector('#list');
 
-function addItem() {
-    let value = todolistinput.value.trim();
-    if (value !== "") {
-        let daftarItem = document.createElement("li");
-        daftarItem.innerHTML = `<span>${value}</span><i></i>`;
+        function addItem() {
+            let value = todolistinput.value.trim();
+            if (value !== "") {
+                let daftarItem = document.createElement("li");
+                daftarItem.innerHTML = `<input type="checkbox"><label>${value}</label>`;
 
-        daftarItem.addEventListener("click", function(){
-            this.classList.toggle('done');
-            updateTextDecoration(this);
+                list.appendChild(daftarItem);
+                todolistinput.value = "";
+            }
+        }
+
+        list.addEventListener("change", function (event) {
+            let checkbox = event.target;
+            if (checkbox.type === "checkbox") {
+                updateTextDecoration(checkbox);
+            }
         });
 
-        daftarItem.querySelector("i").addEventListener("click", function(){
-            daftarItem.remove();
-        });
+        function updateTextDecoration(checkbox) {
+            let item = checkbox.parentElement;
+            let textLabel = item.querySelector('label');
+            if (checkbox.checked) {
+                textLabel.style.textDecoration = 'line-through';
+            } else {
+                textLabel.style.textDecoration = 'none';
+            }
+        }
 
-        list.appendChild(daftarItem);
-        todolistinput.value = "";
-    }
-}
-
-function updateTextDecoration(item) {
-    let textElement = item.querySelector('span');
-    if (item.classList.contains('done')) {
-        textElement.style.textDecoration = 'line-through';
-    } else {
-        textElement.style.textDecoration = 'none';
-    }
-}
-
-todolistinput.addEventListener("keyup", function(event){
-    if(event.key == "Enter") {
-        addItem();
-    }
-});
+        todolistinput.addEventListener("keyup", function (event) {
+            if (event.key == "Enter") {
+                addItem();
+            }
+        })
+        
